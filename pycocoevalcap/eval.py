@@ -4,6 +4,7 @@ from bleu.bleu import Bleu
 from meteor.meteor import Meteor
 from rouge.rouge import Rouge
 from cider.cider import Cider
+from spice.spice import Spice
 
 class COCOEvalCap:
     def __init__(self, coco, cocoRes):
@@ -39,7 +40,9 @@ class COCOEvalCap:
             (Bleu(4), ["Bleu_1", "Bleu_2", "Bleu_3", "Bleu_4"]),
             (Meteor(),"METEOR"),
             (Rouge(), "ROUGE_L"),
-            (Cider(), "CIDEr")
+            (Cider(), "CIDEr"),
+            (Spice(), "SPICE"),
+            (Spice(soft_match=False), "SPICE-hardmatch")
         ]
 
         # =================================================
@@ -70,4 +73,4 @@ class COCOEvalCap:
             self.imgToEval[imgId][method] = score
 
     def setEvalImgs(self):
-        self.evalImgs = [eval for imgId, eval in self.imgToEval.items()]
+        self.evalImgs = [self.imgToEval[imgId] for imgId in sorted(self.imgToEval.keys())]

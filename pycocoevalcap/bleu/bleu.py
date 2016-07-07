@@ -20,8 +20,8 @@ class Bleu:
 
     def compute_score(self, gts, res):
 
-        assert(gts.keys() == res.keys())
-        imgIds = gts.keys()
+        assert(sorted(gts.keys()) == sorted(res.keys()))
+        imgIds = sorted(gts.keys())
 
         bleu_scorer = BleuScorer(n=self._n)
         for id in imgIds:
@@ -32,7 +32,7 @@ class Bleu:
             assert(type(hypo) is list)
             assert(len(hypo) == 1)
             assert(type(ref) is list)
-            assert(len(ref) > 1)
+            assert(len(ref) >= 1)
 
             bleu_scorer += (hypo[0], ref)
 
