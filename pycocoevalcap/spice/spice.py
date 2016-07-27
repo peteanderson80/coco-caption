@@ -63,7 +63,8 @@ class Spice:
         spice_cmd = ['java', '-jar', '-Xmx8G', SPICE_JAR, in_file.name,
           '-cache', cache_dir,
           '-out', out_file.name,
-          '-subset'
+          '-subset',
+          '-silent'
         ]
         subprocess.check_call(spice_cmd, 
             cwd=os.path.dirname(os.path.abspath(__file__)))
