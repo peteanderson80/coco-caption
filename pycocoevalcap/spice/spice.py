@@ -18,11 +18,6 @@ class Spice:
     Main Class to compute the SPICE metric 
     """
 
-    def __init__(self, macro_avg=True, soft_match=True, idf_weight=False):
-        self.macro_avg = macro_avg
-        self.soft_match = soft_match
-        self.idf_weight = idf_weight
-
     def float_convert(self, obj):
         try:
           return float(obj)
@@ -70,8 +65,6 @@ class Spice:
           '-out', out_file.name,
           '-subset'
         ]
-        if not self.soft_match:
-          spice_cmd.append('-noSynsets')
         subprocess.check_call(spice_cmd, 
             cwd=os.path.dirname(os.path.abspath(__file__)))
 
@@ -83,25 +76,10 @@ class Spice:
 
         imgId_to_scores = {}
         spice_scores = []
-        tp = 0
-        fp = 0
-        fn = 0
         for item in results:
           imgId_to_scores[item['image_id']] = item['scores']
-          if self.idf_weight:
-            spice_scores.append(self.float_convert(item['scores']['All']['wf']))
-            tp += item['scores']['All']['wtp']
-            fp += item['scores']['All']['wfp']
-            fn += item['scores']['All']['wfn']
-          else:
-            spice_scores.append(self.float_convert(item['scores']['All']['f']))
-            tp += item['scores']['All']['tp']
-            fp += item['scores']['All']['fp']
-            fn += item['scores']['All']['fn']
-        if self.macro_avg:
-          average_score = np.mean(np.array(spice_scores))
-        else:
-          average_score = (2*tp)/(2*tp+fn+fp)
+          spice_scores.append(self.float_convert(item['scores']['All']['f']))
+        average_score = np.mean(np.array(spice_scores))
         scores = []
         for image_id in imgIds:
           # Convert none to NaN before saving scores over subcategories
@@ -112,13 +90,6 @@ class Spice:
         return average_score, scores
 
     def method(self):
-        name = "SPICE"
-        if not self.macro_avg:
-          name += "-microavg"
-        if not self.soft_match:
-          name += "-hardmatch"
-        if self.idf_weight:
-          name += "-weighted"
-        return name
+        return "SPICE"
 
 

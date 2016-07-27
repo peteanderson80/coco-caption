@@ -41,8 +41,7 @@ class COCOEvalCap:
             (Meteor(),"METEOR"),
             (Rouge(), "ROUGE_L"),
             (Cider(), "CIDEr"),
-            (Spice(), "SPICE"),
-            (Spice(soft_match=False), "SPICE-hardmatch")
+            (Spice(), "SPICE")
         ]
 
         # =================================================
