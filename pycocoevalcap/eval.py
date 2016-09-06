@@ -65,7 +65,7 @@ class COCOEvalCap:
         self.eval[method] = score
 
     def setImgToEvalImgs(self, scores, imgIds, method):
-        for imgId, score in zip(imgIds, scores):
+        for imgId, score in zip(sorted(imgIds), scores):
             if not imgId in self.imgToEval:
                 self.imgToEval[imgId] = {}
                 self.imgToEval[imgId]["image_id"] = imgId
