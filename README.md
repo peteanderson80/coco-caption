@@ -3,6 +3,9 @@ Microsoft COCO Caption Evaluation
 
 Evaluation codes for MS COCO caption generation.
 
+**No longer maintained.**
+The SPICE metric has been incorporated into the official [COCO caption evaluation code](https://github.com/tylin/coco-caption), so this repo is no longer maintained.
+
 ## Requirements ##
 - java 1.8.0
 - python 2.7
