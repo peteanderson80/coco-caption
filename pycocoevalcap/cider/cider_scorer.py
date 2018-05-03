@@ -103,6 +103,9 @@ class CiderScorer(object):
                 self.document_frequency[ngram] += 1
             # maxcounts[ngram] = max(maxcounts.get(ngram,0), count)
 
+        # compute log reference length
+        self.ref_len = np.log(float(len(self.crefs)))
+
     def compute_cider(self):
         def counts2vec(cnts):
             """
@@ -157,9 +160,6 @@ class CiderScorer(object):
                 # vrama91: added a length based gaussian penalty
                 val[n] *= np.e**(-(delta**2)/(2*self.sigma**2))
             return val
-
-        # compute log reference length
-        self.ref_len = np.log(float(len(self.crefs)))
 
         scores = []
         for test, refs in zip(self.ctest, self.crefs):
